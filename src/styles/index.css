@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink text-parchment font-body antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+
+  ::selection {
+    @apply bg-copper text-ink;
+  }
+
+  /* Visible keyboard focus, respected everywhere — no outline: none without a replacement */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-ink;
+  }
+}
+
+@layer utilities {
+  .circuit-bg {
+    background-image: linear-gradient(rgba(191, 106, 46, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(191, 106, 46, 0.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .text-gradient-copper {
+    background: linear-gradient(90deg, #d98a4f, #d4a94a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  @keyframes paymentProgress {
+    0% {
+      transform: translateX(-140%);
+    }
+    100% {
+      transform: translateX(420%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

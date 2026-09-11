@@ -1,0 +1,31 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /registrations/{registrationId} {
+      // The public registration flow creates records directly from the browser.
+      allow create: if request.resource.data.registrationId == registrationId
+        && request.resource.data.fullName is string
+        && request.resource.data.email is string
+        && request.resource.data.transactionId is string
+        && request.resource.data.paymentScreenshot is string;
+
+      // The existing dashboard has no Firebase Auth identity, so its read
+      // access cannot be restricted by the current client-side password.
+      allow read: if true;
+      allow update, delete: if false;
+    }
+
+    match /counters/{counterId} {
+      // Registration IDs are allocated by the client transaction.
+      allow read, write: if true;
+    }
+
+    match /feedback/{feedbackId} {
+      allow create: if request.resource.data.feedbackId == feedbackId
+        && request.resource.data.registrationId is string
+        && request.resource.data.feedback is string;
+      allow read, update, delete: if false;
+    }
+  }
+}
